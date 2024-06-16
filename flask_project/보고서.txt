@@ -1,0 +1,285 @@
+제목 : VISION AI 기반 스마트 팩토리 DX 솔루션
+			 
+배경
+	문제점
+		기존 생산라인 문제점
+		1) 육안검사
+		 1_1. 예전 생산라인 (사람이 직접 불량품을 검출하는데 지속적으로 할 때 문제가 생김)
+			휴먼 에러, 즉 사람이 직접 판단하다 보면 실수할때가 많음
+		 1_2. 잔상효과
+		 1_3. 숙련도가 높을수록 일의 속도 및 정확도 증가 -> 베테랑 검사관 필요
+		 1_4. 육안검사 수행을 위한 알맞는 주변환경 필요 (검사원들의 동선 설계 등)
+		 1_5. 검사관의 컨디션에 따른 정확도 변화
+		 1_6. 사람의 한계 ( 체력, 건강 등 이슈)
+		 
+		2) Rule-base 검사방식 (머신러닝 기법)
+		 2_1. 규모 확장의 한계
+		 2_2. 업데이트의 어려움
+		 2_3. 규칙끼리의 충돌
+		 2_4. 각 작업에 특화된 알고리즘에 의존
+		 
+	  솔루션
+		 1. VISION AI ,opencv, 로봇 암 등을 사용
+		 2. Rule-base 검사방식을 기반으로 딥러닝을 더하는 알고리즘 방식 권장
+		
+		강조
+		기술 :  휴먼 에러, AI 기반 영상 분석 시스템, DX (디지털 트윈), Raas (Robot as a service)
+		(중요) 우리 기술을 사용해야하는 이유(기술 전략) : RAAS, DX 관련 자료 스크랩 첨부
+		
+		----> 이점 관련해서 넣자
+
+내용 1 [시스템 소개] > 프로젝트 수행경과
+	
+	시스템 소개
+	 1. 시스템 작동 과정 -> 이미지
+	  1-1. 2d, 3d 모델링 사진
+	  1-2. 프로토 타입 [미니어처]
+	  1-3. 실제 제작품 사진
+	  
+	 2. 프로젝트 계발 단계
+		2-1. YOLO 활용한 QC 모델 제작
+		2-2. 비전 AI 모델 활용 양품 / 불량 판별 시스템 계발
+		2-3. 실무 사용자를 위한 UI 제작
+		2-4. 시스템 추출 데이터 DB 연동 -> DX + 빅테이터 수집으로 비전 AI 모델 성능 향상 도모
+		2-5. DB 연동하여 WEB에서 생산 데이터 실시간 확인기능 구현 -> 디지털 트윈
+		2-6. 향후 안드로이드 앱 통한 확인 기능추가 계획중  
+		
+	 3. 플로우 차트, 시스템 구조 (SW : DB, WEB 등등) -> 그리기
+	 
+	 4. 개발언어, 기술스택, 실행 환경
+		 4-1. 개발언어
+			 
+		4-3. 개발 환경
+			 - visual studio code
+			 - Anaconda
+			 - Arduino
+			 - XG-5000
+			 - UBUNTU
+			 - python 3.9
+			 - c++
+			 
+		 4-2. 기술스택
+			 - flask -> 프론트엔드, 관리자가 웹페이지를 통해 원격으로 제품 생산정보 모니터링 
+			 - firebase (NoSQL) 백엔드, 생산된 정보의 QC 정보 및 제품의 실제 이미지 저장
+			 - opencv -> 웹캠을 불러오기 위해 사용
+			 - yolov8n -> 모델 학습 & 객체 감지
+			 - SQLite -> 프론트 엔드, DB의 데이터를 웹페이지에 불러오기 위해 사용
+		 
+	 5. 장비 SPEC (agv, pymycobot, plc... )
+		 - MyCobot320-M5
+			 - Degrees of Freedom: 6
+			 - Payload: 1000 grams
+			 - Working Radius: 350 mm
+			 
+			 - Repeatability: ±1 mm
+			 - Weight: 3360 grams
+			 
+			 - Interfaces: Equipped with multiple 24V industrial I/O interfaces
+			 - Development Support: The myCobot 320-M5 supports ROS
+			 
+		 - XBC-DR32H
+			  - Integrated I/O: 16 digital inputs
+			  - Network Interfaces: RS485, RS232, Ethernet
+			  - Additional Features: Floating-point arithmetic, high-speed counter, PID control
+			  
+				  built-in USB interface, and support for network configuration via Ethernet and Cnet I/F
+				- Modular and High-Speed: Capable of handling high-speed operations and multi-channel tasks
+				- Processing Speed: 83 ns per step
+				- Expansion Modules: Supports up to 10 exp['ansion modules
+				- Maximum I/O Points: Up to 704 I/O points
+				- Communication Ports: Includes RS232C and RS485 ports
+				- Additional Features: Floating-point arithmetic, high-speed counter, PID control, built-in USB interface, and support for network configuration via Ethernet and Cnet I/F
+				- Mounting: DIN rail mountable
+				
+		- MYAGV
+			 - Size: 355 x 354 x 320 mm
+			 - Weight: 12 kg
+			 - Maximum Speed: 1 m/s
+			 - Payload Capacity: 5 kg
+			 
+			 
+			 - Runtime: Up to 4 hours on a full charge
+			 - Equipped with LIDAR for obstacle detection and mapping(넣을 수 있으면)
+			 - Uses SLAM (Simultaneous Localization and Mapping) for navigation
+			 - Integrated IMU (Inertial Measurement Unit) for enhanced stability and navigation precision
+
+		 - Arduino Uno	[엘리베이터 제어]	 
+			 - bluetooth module [통신]
+			 - buzzer [동작]
+			 - LED [동작]
+			 
+		 - MOTOR: 아두이노 모터 스펙 [엘리베이터 구동]
+			 
+			 
+			 
+	 6. 프로젝트 수행 절차 및 내용 (개발 일정) -> 표 OR 간트 차트
+
+내용 2 [시스템 소개] -> 프로젝트 진행 시 개선 사항
+	trouble shooting : 시스템 구현 시 문제 해결 및 업그레이드 방안
+	<문제 및 개선사항>
+	yolov8n 처리시 UI에서 카메라 느려짐 현상 -> threading 방식으로 해결
+	
+	이미지 캡처시 잘린 이미지 저장되는 문제 -> PRODUCT의 넓이 계산 알고리즘 추가로 일정 크기
+	이상일때만 캡처 [카메라 이미지
+	
+	DB 와 WEB 연동시 HTML 버튼 생성 후, 이미지 팝업창 띄우기 안되는 문제 -> HTML 이미지 버튼
+	누를시 이미지 팝업창으로 띄울 때 FIREBASE의 데이터베이스에 바론 연동해서
+	이미지를 바로 띄울려는데 실패 -> FIREBASE의 데이터베이스에서 FLASK 로컬 환경에 이미지를 다운
+	받은 후, 다운 받은 이미지 디렉토리 경로와 HTML 버튼과 연동시켜 이미지 팝업창 띄우기 성공
+	
+  <업데이트 가능 방안 -> 추후 개선 사항>
+	DB -> Image -> yolov8n 모델 정확도 상승
+	
+결론 [기존 생산라인 보다 매출이나 이익 부분에서 어떤 이득이 있는지?]
+	 최종 작동 시연 및 3d 애니메이션 영상
+	 (중요)우리 시스템이 유리한 이유
+	 - 자동화로 인한 작업의 효율화
+	 - 작업환경의 생인화 (생인화 : 사람을 덜어냄)
+	 - 휴먼에러로부터의 독립
+	 - 공정 디지털화로 인한 생산관리 용이
+
+마무리
+	자체평가 (사후평가)
+	팀구성 역할제목 : VISION AI 기반 스마트 팩토리 DX 솔루션
+			 
+배경
+	문제점
+		기존 생산라인 문제점
+		1) 육안검사
+		 1_1. 예전 생산라인 (사람이 직접 불량품을 검출하는데 지속적으로 할 때 문제가 생김)
+			휴먼 에러, 즉 사람이 직접 판단하다 보면 실수할때가 많음
+		 1_2. 잔상효과
+		 1_3. 숙련도가 높을수록 일의 속도 및 정확도 증가 -> 베테랑 검사관 필요
+		 1_4. 육안검사 수행을 위한 알맞는 주변환경 필요 (검사원들의 동선 설계 등)
+		 1_5. 검사관의 컨디션에 따른 정확도 변화
+		 1_6. 사람의 한계 ( 체력, 건강 등 이슈)
+		 
+		2) Rule-base 검사방식 (머신러닝 기법)
+		 2_1. 규모 확장의 한계
+		 2_2. 업데이트의 어려움
+		 2_3. 규칙끼리의 충돌
+		 2_4. 각 작업에 특화된 알고리즘에 의존
+		 
+	  솔루션
+		 1. VISION AI ,opencv, 로봇 암 등을 사용
+		 2. Rule-base 검사방식을 기반으로 딥러닝을 더하는 알고리즘 방식 권장
+		
+		강조
+		기술 :  휴먼 에러, AI 기반 영상 분석 시스템, DX (디지털 트윈), Raas (Robot as a service)
+		(중요) 우리 기술을 사용해야하는 이유(기술 전략) : RAAS, DX 관련 자료 스크랩 첨부
+		
+		----> 이점 관련해서 넣자
+
+내용 1 [시스템 소개] > 프로젝트 수행경과
+	
+	시스템 소개
+	 1. 시스템 작동 과정 -> 이미지
+	  1-1. 2d, 3d 모델링 사진
+	  1-2. 프로토 타입 [미니어처]
+	  1-3. 실제 제작품 사진
+	  
+	 2. 프로젝트 계발 단계
+		2-1. YOLO 활용한 QC 모델 제작
+		2-2. 비전 AI 모델 활용 양품 / 불량 판별 시스템 계발
+		2-3. 실무 사용자를 위한 UI 제작
+		2-4. 시스템 추출 데이터 DB 연동 -> DX + 빅테이터 수집으로 비전 AI 모델 성능 향상 도모
+		2-5. DB 연동하여 WEB에서 생산 데이터 실시간 확인기능 구현 -> 디지털 트윈
+		2-6. 향후 안드로이드 앱 통한 확인 기능추가 계획중  
+		
+	 3. 플로우 차트, 시스템 구조 (SW : DB, WEB 등등) -> 그리기
+	 
+	 4. 개발언어, 기술스택, 실행 환경
+		 4-1. 개발언어
+			 
+		4-3. 개발 환경
+			 - visual studio code
+			 - Anaconda
+			 - Arduino
+			 - XG-5000
+			 - UBUNTU
+			 - python 3.9
+			 - c++
+			 
+		 4-2. 기술스택
+			 - flask -> 프론트엔드, 관리자가 웹페이지를 통해 원격으로 제품 생산정보 모니터링 
+			 - firebase (NoSQL) 백엔드, 생산된 정보의 QC 정보 및 제품의 실제 이미지 저장
+			 - opencv -> 웹캠을 불러오기 위해 사용
+			 - yolov8n -> 모델 학습 & 객체 감지
+			 - SQLite -> 프론트 엔드, DB의 데이터를 웹페이지에 불러오기 위해 사용
+		 
+	 5. 장비 SPEC (agv, pymycobot, plc... )
+		 - MyCobot320-M5
+			 - Degrees of Freedom: 6
+			 - Payload: 1000 grams
+			 - Working Radius: 350 mm
+			 
+			 - Repeatability: ±1 mm
+			 - Weight: 3360 grams
+			 
+			 - Interfaces: Equipped with multiple 24V industrial I/O interfaces
+			 - Development Support: The myCobot 320-M5 supports ROS
+			 
+		 - XBC-DR32H
+			  - Integrated I/O: 16 digital inputs
+			  - Network Interfaces: RS485, RS232, Ethernet
+			  - Additional Features: Floating-point arithmetic, high-speed counter, PID control
+			  
+				  built-in USB interface, and support for network configuration via Ethernet and Cnet I/F
+				- Modular and High-Speed: Capable of handling high-speed operations and multi-channel tasks
+				- Processing Speed: 83 ns per step
+				- Expansion Modules: Supports up to 10 exp['ansion modules
+				- Maximum I/O Points: Up to 704 I/O points
+				- Communication Ports: Includes RS232C and RS485 ports
+				- Additional Features: Floating-point arithmetic, high-speed counter, PID control, built-in USB interface, and support for network configuration via Ethernet and Cnet I/F
+				- Mounting: DIN rail mountable
+				
+		- MYAGV
+			 - Size: 355 x 354 x 320 mm
+			 - Weight: 12 kg
+			 - Maximum Speed: 1 m/s
+			 - Payload Capacity: 5 kg
+			 
+			 
+			 - Runtime: Up to 4 hours on a full charge
+			 - Equipped with LIDAR for obstacle detection and mapping(넣을 수 있으면)
+			 - Uses SLAM (Simultaneous Localization and Mapping) for navigation
+			 - Integrated IMU (Inertial Measurement Unit) for enhanced stability and navigation precision
+
+		 - Arduino Uno	[엘리베이터 제어]	 
+			 - bluetooth module [통신]
+			 - buzzer [동작]
+			 - LED [동작]
+			 
+		 - MOTOR: 아두이노 모터 스펙 [엘리베이터 구동]
+			 
+			 
+			 
+	 6. 프로젝트 수행 절차 및 내용 (개발 일정) -> 표 OR 간트 차트
+
+내용 2 [시스템 소개] -> 프로젝트 진행 시 개선 사항
+	trouble shooting : 시스템 구현 시 문제 해결 및 업그레이드 방안
+	<문제 및 개선사항>
+	yolov8n 처리시 UI에서 카메라 느려짐 현상 -> threading 방식으로 해결
+	
+	이미지 캡처시 잘린 이미지 저장되는 문제 -> PRODUCT의 넓이 계산 알고리즘 추가로 일정 크기
+	이상일때만 캡처 [카메라 이미지
+	
+	DB 와 WEB 연동시 HTML 버튼 생성 후, 이미지 팝업창 띄우기 안되는 문제 -> HTML 이미지 버튼
+	누를시 이미지 팝업창으로 띄울 때 FIREBASE의 데이터베이스에 바론 연동해서
+	이미지를 바로 띄울려는데 실패 -> FIREBASE의 데이터베이스에서 FLASK 로컬 환경에 이미지를 다운
+	받은 후, 다운 받은 이미지 디렉토리 경로와 HTML 버튼과 연동시켜 이미지 팝업창 띄우기 성공
+	
+  <업데이트 가능 방안 -> 추후 개선 사항>
+	DB -> Image -> yolov8n 모델 정확도 상승
+	
+결론 [기존 생산라인 보다 매출이나 이익 부분에서 어떤 이득이 있는지?]
+	 최종 작동 시연 및 3d 애니메이션 영상
+	 (중요)우리 시스템이 유리한 이유
+	 - 자동화로 인한 작업의 효율화
+	 - 작업환경의 생인화 (생인화 : 사람을 덜어냄)
+	 - 휴먼에러로부터의 독립
+	 - 공정 디지털화로 인한 생산관리 용이
+
+마무리
+	자체평가 (사후평가)
+	팀구성 역할

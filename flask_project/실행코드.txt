@@ -1,0 +1,18 @@
+1번 -> cd flask_project/myflask
+(flask) C:\Users\user\Desktop\flask_project\myflask> 이 상황에서 실행해야함
+
+2번 ->  flask --app app2.py db init
+        flask --app app2.py db migrate
+        flask --app app2.py db upgrade
+
+* QC는 flask 세팅용 
+
+3번 -> python app.py [app 업데이트]
+
+4번 -> http://localhost:5000
+
+## 참고사항
+지금 myflask 안에 따로 qc 디렉토리를 만들면 안됨 -> 이거 때문에 파일 실행 경로가 다꼬임
+
+5번 app2.py -> qc 외부에 있는 templates의 index2.html을 실행
+6번 app.py -> qc 안에 있는 templates의 index.html을 실행
